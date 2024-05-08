@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detektor emócií</title>
+</head>
+<body>
+<style>
+    body{
+        background-color: #B4D4FF;
+    }
+    
+    .gdpr-notification{
+        height: 200px;
+        width: 500px;
+        background-color: rgba(255, 0, 0, 0.35);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 50px;
+        border-radius: 50px;
+        box-shadow: 5px 5px 40px #888888;
+        width: 800px;
+        font-size: 40px;
+        backdrop-filter: blur(80px);
+        display: flex;
+        justify-content: center;
+        color: white;
+        text-shadow: 0px 0px 15px black;
+    }
+    
+    .gdpr-notification button{
+        height: 40px;
+        width: 200px;
+        background-color: #007bff;
+        font-size: x-large;
+        color: #ffffff;
+        border-radius: 10px;
+        border: none;
+    }
+    
+    #maindiv{
+        transition: 0.2s;
+        height: 500px;
+        width: 500px;
+        background-color: #86B6F6;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px;
+        border-radius: 50px;
+        box-shadow: 5px 5px 40px #888888;
+    }
+    
+    #maindiv h1{
+    
+        text-align: center;
+    }
+    
+    #upload{
+        width: 350px;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    #zobrazObr{
+        height: 250px;
+        top: 50%;
+        left: 50%;
+        transform: translate(0%,-20%);
+        padding: 10px;
+    }
+    
+    #forminput{
+        width: 500px;
+        height: 100px;
+    }
+    #vlozenobrazok{
+        display: flex;
+        justify-content: center;
+    }
+    
+    
+    .btn{
+        width: 180px;
+        height: 50px;
+        background-color: #176B87;
+        border: none;
+        color: #EEF5FF;
+        border-radius: 20px;
+    }
+    
+    #buttons{
+        display: flex;
+        gap: 50px;
+        justify-content: center;
+    }
+    
+    
+    #gdpr-notification button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+    
+    #gdpr-notification button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div id="maindiv">
+
+    <h1>DETEKTOR EMÓCIÍ</h1>
+    <div id="upload">
+        <form id="forminput" action="/analyza" method="post" enctype="multipart/form-data">
+            <label for="subor">Nahraj obrázok:</label>
+            <input type="file" id="subor" name="suborx">
+        </form>
+    </div>
+    
+    <div id="vlozenobrazok">
+        <img id="zobrazObr" src="zobrazObr" alt="Tvoj obrázok :D">
+    </div>
+    
+    <div id="buttons">
+        <button class="btn" type="button" onclick="analyzovat()">Analyzovať</button>
+        <input class="btn" type="reset" value="Resetovať" onclick="resetForm()">
+    </div>
+
+    <div class="gdpr-notification" id="gdprNotification">
+        Táto stránka spracúva osobné údaje v súlade s GDPR.
+        Fotografie nahrané používateľmi sú ukladané na vzdialený server.
+        </br>
+        <button onclick="closeNotification()">SÚHLASÍM</button>
+        <a href="https://www.google.com"><button>NESÚHLASÍM</button></a>
+    </div>
+</div>
+
+<script>
+    const obrazokInput = document.getElementById('subor');
+    const zobrazObr = document.getElementById('zobrazObr');
+    let povodnyObrazokSrc = zobrazObr.src;
+
+    obrazokInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                zobrazObr.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function resetForm() {
+        document.getElementById('forminput').reset();
+        zobrazObr.src = './basic.png';
+    }
+
+    function closeNotification() {
+        document.getElementById("gdprNotification").style.display = "none";
+    }
+
+    function analyzovat() {
+        document.getElementById('forminput').submit(); // Odoslanie formulára
+    }
+</script>
+</div>
+
+</body>
+</html>
